@@ -8,21 +8,29 @@
 // src/AppBundle/Controller/LuckyController.php
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class LuckyController extends Controller
+class LuckyController extends FOSRestController
 {
     /**
-     * @Route("/lucky/number")
+     * @Route("/lucky/number/{count}")
      */
-    public function numberAction()
+    public function numberAction($count)
     {
-        $number = rand(0, 100);
+        $numbers = array();
+        for ($i = 0; $i < $count; $i++) {
+            $numbers[] = rand(0, 100);
+        }
 
-        return new Response(
-            '<html><body>Lucky number: '.$number.'</body></html>'
+        $numbersList = implode(', ', $numbers);
+
+        $html = $this->container->get('templating')->render(
+            'lucky/number.html.twig',
+            array('luckyNumberList' => $numbersList)
         );
+
+        return new Response($html);
     }
 }

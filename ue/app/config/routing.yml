@@ -1,3 +1,11 @@
+db_db:
+    resource: "@dbDbBundle/Resources/config/routing.yml"
+    prefix:   /
+
+acme_store:
+    resource: "@AcmeStoreBundle/Resources/config/routing.php"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
